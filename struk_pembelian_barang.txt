@@ -1,0 +1,5 @@
+Struk Pembelian
+================
+Pembelian Barang Anda : 
+Sabun - Rp. 5000
+Total Harga : Rp. 0
