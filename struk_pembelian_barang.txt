@@ -1,5 +1,5 @@
 Struk Pembelian
 ================
 Pembelian Barang Anda : 
-Sabun - Rp. 5000
+Garam - Rp. 6000 (Jumlah: 2)
 Total Harga : Rp. 0

@@ -32,7 +32,7 @@ public class TokoKelontong {
                     tampilkanPesanan(pesanan, menuBarang);
                     break;
                 case 3:
-                    keluarAplikasi(pesanan, menuBarang, totalHarga);
+                    konfirmasiDanPembayaran(pesanan, menuBarang, totalHarga);
                     break;
                 default:
                     System.out.println("Pilihan Tidak Valid. Silahkan Pilih Lagi");
@@ -46,7 +46,7 @@ public class TokoKelontong {
         System.out.println(">> Menu Utama <<");
         System.out.println("1. Pesan Barang");
         System.out.println("2. Lihat Pesanan");
-        System.out.println("3. Keluar");
+        System.out.println("3. Konfirmasi dan Pembayaran");
     }
 
     public static void tampilkanMenuBarang(ArrayList<Barang> menuBarang) {
@@ -66,8 +66,8 @@ public class TokoKelontong {
             pilihBarang = sc.nextInt();
             sc.nextLine();
 
-            if (pilihBarang >= 1 && pilihBarang <= 4) {
-                System.out.println("Masukan Jumlah Pesanan Untuk Barang : " + menuBarang.get(pilihBarang - 1).getNama() + "(0 Utuk Batal)");
+            if (pilihBarang >= 1 && pilihBarang <= menuBarang.size()) {
+                System.out.println("Masukkan Jumlah Pesanan Untuk Barang: " + menuBarang.get(pilihBarang - 1).getNama() + " (0 untuk Batal)");
                 int jumlah = sc.nextInt();
                 sc.nextLine();
 
@@ -82,6 +82,7 @@ public class TokoKelontong {
             }
         } while (pilihBarang != 0);
     }
+
 
     public static void pesanBarang(HashMap<String, Integer> pesananBarang, Barang barang, int jumlah) {
         if (pesananBarang.containsKey(barang.getNama())) {
@@ -98,17 +99,26 @@ public class TokoKelontong {
             String namaBarang = barang.getNama();
             int jumlah = pesananBarang.getOrDefault(namaBarang, 0);
             if (jumlah > 0) {
-                System.out.println(namaBarang + " - Rp. " + barang.getHarga());
+                System.out.println(namaBarang + " - Rp. " + barang.getHarga() + " (Jumlah: " + jumlah + ")");
             }
         }
     }
 
-    public static void keluarAplikasi(HashMap<String, Integer> pesananBarang, ArrayList<Barang> menuBarang, int totalHarga) {
+    public static void konfirmasiDanPembayaran(HashMap<String, Integer> pesananBarang, ArrayList<Barang> menuBarang, int totalHarga) {
         tampilkanPesanan(pesananBarang, menuBarang);
         System.out.println("Total Harga " + totalHarga);
-        simpanStrukPembelian(pesananBarang, menuBarang, totalHarga);
-        System.out.println("Terima Kasih Telah Belanja Di Toko Kelontong Kami");
-        System.exit(0);
+
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Apakah Anda ingin mengkonfirmasi pesanan (Y/N)? ");
+        String konfirmasi = sc.nextLine();
+
+        if (konfirmasi.equalsIgnoreCase("Y")) {
+            simpanStrukPembelian(pesananBarang, menuBarang, totalHarga);
+            System.out.println("Terima Kasih Telah Membeli di Toko Kelontong Kami!");
+            System.exit(0);
+        } else {
+            System.out.println("Pesanan Anda belum dikonfirmasi. Silahkan kembali ke menu utama atau keluar.");
+        }
     }
 
     public static void simpanStrukPembelian(HashMap<String, Integer> pesananBarang, ArrayList<Barang> menuBarang, int totalHarga) {
@@ -120,7 +130,7 @@ public class TokoKelontong {
                 String namaBarang = barang.getNama();
                 int jumlah = pesananBarang.getOrDefault(namaBarang, 0);
                 if (jumlah > 0) {
-                    printStruk.println(namaBarang + " - Rp. " + barang.getHarga());
+                    printStruk.println(namaBarang + " - Rp. " + barang.getHarga() + " (Jumlah: " + jumlah + ")");
                 }
             }
             printStruk.println("Total Harga : Rp. " + totalHarga);
@@ -131,7 +141,6 @@ public class TokoKelontong {
         }
     }
 }
-
 
 class Barang {
     private String nama;
@@ -150,5 +159,3 @@ class Barang {
         return harga;
     }
 }
-
-
